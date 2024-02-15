@@ -18,9 +18,13 @@ let client;
 async function init() {
     const host = HOST_FILE ? fs.readFileSync(HOST_FILE) : HOST;
     const user = USER_FILE ? fs.readFileSync(USER_FILE) : USER;
-    const password = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE, 'utf8') : PASSWORD;
+    const password_from_file = PASSWORD_FILE ? fs.readFileSync(PASSWORD_FILE, 'utf8') : PASSWORD;
+    const password = password_from_file.trim();
     const database = DB_FILE ? fs.readFileSync(DB_FILE) : DB;
-
+    console.log(password);
+    console.log(user);	
+    console.log(host); 
+    console.log(database);	
     await waitPort({ 
         host, 
         port: 5432,
@@ -41,7 +45,7 @@ async function init() {
         await client.query('CREATE TABLE IF NOT EXISTS todo_items (id varchar(36), name varchar(255), completed boolean)');
         console.log('Connected to db and created table todo_items if it did not exist');
     }).catch(err => {
-        console.error('Unable to connect to the database:', err);
+        console.error('Unable to connect to the database CANNOT CONNECT:', err);
     });
 }
 
